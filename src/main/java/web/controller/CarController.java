@@ -17,8 +17,13 @@ public class CarController {
     private CarServiceImp carService;
 
     @GetMapping(value = "/cars")
-    public String listCar(@RequestParam String count, ModelMap model) {
-        Integer number = Integer.parseInt(count);
+    public String listCar(@RequestParam(required = false) String count, ModelMap model) {
+        Integer number = null;
+        try {
+            number = Integer.parseInt(count);
+        } catch ( NumberFormatException e) {
+            //
+        }
         List<Car> listCar = carService.listCar(number);
         model.addAttribute("listCar", listCar);
         return "cars";
